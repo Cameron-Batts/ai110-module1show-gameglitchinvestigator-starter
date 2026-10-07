@@ -25,30 +25,48 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+**Purpose:** This is a number guessing game built with Streamlit. The player guesses a secret number and the game gives hints until they win or run out of attempts. The starter code was written by AI and had several bugs.
+
+**Bugs I found:**
+- The hint messages were backwards. A guess that was too high told the player to go higher.
+- On every even attempt, the secret was turned into a string, so numbers were compared as text ("9" > "50"). This made the hints wrong on every other guess.
+- The New Game button did not reset the status, score, or history, so the game stayed stuck after a win or loss.
+- The attempts counter started at 1, so it always showed one more attempt than I had actually made.
+- On even attempts, a "Too High" guess added 5 to the score instead of taking points away.
+
+**Fixes I applied:**
+- I moved `check_guess` into `logic_utils.py` and swapped the hint messages so "Too High" says go lower and "Too Low" says go higher.
+- I removed the `str(secret)` code in `app.py` so the guess and the secret are always compared as numbers.
+- I updated the starter tests to read the outcome from the (outcome, message) result and added tests for the hint direction and the 9 vs 50 case.
+- I did not fix the New Game, attempts counter, or scoring bugs.
+
 
 ## 📸 Demo Walkthrough
 
-Describe your fixed game in numbered steps so a reader can follow along without watching a video:
-
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. Started a game on Normal difficulty. The debug panel showed a secret of 97.
+2. Entered 3. The game said "Go HIGHER!" and the score went down to -5.
+3. Entered 100. The game said "Go LOWER!" and the score went down to -10.
+4. Entered 100 again (an even attempt). The game still said "Go LOWER!", so the hint stayed correct, but the score went up by 5 to -5. This is a scoring bug I did not fix.
+5. Entered 80. The game said "Go HIGHER!" and the score went back down to -10.
+6. Entered 97. The game showed "Correct!" and the round ended with a win Final score: 20
+7. The attempts counter was one higher than the number of guesses I made, because it starts at 1. I did not fix this one either.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
 ## 🧪 Test Results
 
 ```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
+========================= test session starts =========================
+platform darwin -- Python 3.13.9, pytest-8.4.2, pluggy-1.5.0
+rootdir: /Users/cam/ai110-module1show-gameglitchinvestigator-starter
+plugins: anyio-4.10.0
+collected 5 items
+
+tests/test_game_logic.py .....                                   [100%]
+
+========================== 5 passed in 0.01s ==========================
 ```
 
 ## 🚀 Stretch Features
 
-- [ ] [If you choose to complete Challenge 4, describe the Enhanced UI changes here — a screenshot is optional]
+None completed.
